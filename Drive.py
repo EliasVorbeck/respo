@@ -11,6 +11,7 @@ ua = Ultrasonic_Avoidance.Ultrasonic_Avoidance(20)
 fw = front_wheels.Front_Wheels(db='config')
 bw = back_wheels.Back_Wheels(db='config')
 speed = 30
+fw.turn_straight()
 
 # Kamera öffnen
 camera = cv2.VideoCapture(0)
