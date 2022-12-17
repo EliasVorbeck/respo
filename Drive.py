@@ -1,6 +1,16 @@
 import cv2
 import numpy as np
 import time
+from picar import front_wheels
+from picar import back_wheels
+import picar
+
+#PiCar einstellen
+picar.setup()
+ua = Ultrasonic_Avoidance.Ultrasonic_Avoidance(20)
+fw = front_wheels.Front_Wheels(db='config')
+bw = back_wheels.Back_Wheels(db='config')
+speed = 30
 
 # Kamera öffnen
 camera = cv2.VideoCapture(0)
@@ -12,14 +22,19 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 # Funktion zum Einstellen des Servo-Winkels
 def set_angle(angle):
     if angel > 0:
-        duty_cycle = angle + 90
-    elif angel < 0:
         duty_cycle = angle - 90
-        pwm.ChangeDutyCycle(duty_cycle)
+        fw.turn(duty_cycle)
+    elif angel < 0:
+        duty_cycle = angle + 90
+        fw.turn(duty_cycle)
     else:
-        #geradeaus
+        fw.turn_straight()
+        
 
 while True:
+    # Fahre vorwärts
+    bw.backward()
+    bw.speed = speed
     # Bild aufnehmen
     ret, frame = camera.read()
 
@@ -60,5 +75,13 @@ while True:
 
     # Servo entsprechend einstellen
     set_angle(angle)
+    
+      # Tastatureingabe abfragen
+    key = cv2.waitKey(1)
+    if key == ord("q"):
+        # Schleife beenden
+        break
 
-
+# Kamera und GPIO-Pins freigeben
+camera.release()
+GPIO.cleanup()
