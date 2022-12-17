@@ -21,17 +21,18 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
 # Funktion zum Einstellen des Servo-Winkels
 def set_angle(angle):
-    if angel > 0:
-        duty_cycle = 90 - angel
-        fw.turn(duty_cycle)
-    elif angel < 0:
-        duty_cycle = 90 + angel
-        fw.turn(duty_cycle)
+    if angle > 0:
+        left_angle = 90 - angle
+        fw.turn(left_angle)
+    elif angle < 0:
+        right_angle = 90 + angle
+        fw.turn(right_angle)
     else:
         fw.turn_straight()
         
 
 while True:
+    time.sleep(5)
     # Fahre vorwärts
     bw.backward()
     bw.speed = speed
