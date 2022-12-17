@@ -7,7 +7,6 @@ import picar
 
 #PiCar einstellen
 picar.setup()
-ua = Ultrasonic_Avoidance.Ultrasonic_Avoidance(20)
 fw = front_wheels.Front_Wheels(db='config')
 bw = back_wheels.Back_Wheels(db='config')
 speed = 30
